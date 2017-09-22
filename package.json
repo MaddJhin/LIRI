@@ -1,0 +1,23 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "Let's learn some node",
+  "main": "index.js",
+  "dependencies": {
+    "request": "^2.82.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaddJhin/LIRI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaddJhin/LIRI/issues"
+  },
+  "homepage": "https://github.com/MaddJhin/LIRI#readme"
+}
