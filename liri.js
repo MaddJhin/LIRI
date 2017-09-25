@@ -3,11 +3,19 @@ var spotKeys = require('./spotKeys.js');
 
 var request = require('request');
 var Spotify = require('node-spotify-api');
+var Twitter = require('twitter');
 
 var spotify = new Spotify({
     id: spotKeys.id,
     secret: spotKeys.secret
 });
+
+var twitter = new Twitter({
+    consumer_key: twitterKeys.consumer_key,
+    consumer_secret: twitterKeys.consumer_secret,
+    access_token_key: twitterKeys.access_token_key,
+    access_token_secret: twitterKeys.access_token_secret
+  });
 
 // The first argument passed by the user is taken for the command
 var command = process.argv[2];
@@ -47,23 +55,34 @@ switch (command) {
 
 function DisplayTweets() {
     console.log ("Showing last 20 tweets");
+
+    twitter.get('search/tweets', {q: 'node.js', count: 20}, function(error, tweets, response){
+        if (error)
+            console.log(error);
+
+        tweets.statuses.forEach(function(element) {
+            console.log(element.text);
+        }, this);
+    });
 }
 
 function DisplaySong() {
     console.log ("Displaying song information");
 
     var songName = "";
-    if(process.argv.length > 3)
-        songName = '"'+searchString +'"';
-    else
-        console.log("Please put a track name");
+    // if(process.argv.length > 3)
+    //     songName = encodeURI(searchString);
+    // else
+    //     console.log("Please put a track name");
+
+    songName =  decodeURI('"The+Sign"');
 
     spotify.search({ type: 'track', query: songName}, function(error, data) {
         if (error) {
           return console.log('Error occurred: ' + error);
         }
        
-      console.log(data.tracks); 
+      console.log(data); 
       });
 }
 
