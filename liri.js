@@ -1,7 +1,23 @@
 var twitterKeys = require('./keys.js');
+var request = require('request');
+
 
 // The first argument passed by the user is taken for the command
 var command = process.argv[2];
+
+// All other arguments are used as a search string
+var searchString = "";
+if(process.argv.length > 3)
+{
+    for (let i = 3; i < process.argv.length; i++)
+    {
+        searchString += process.argv[i] + " ";
+    }
+}
+
+
+// Vars for different functions
+var movieName = "Mr. Nobody";
 
 // Use the command to determine which case to run
 switch (command) {
@@ -36,6 +52,26 @@ function DisplaySong() {
 
 function DisplayMovie() {
     console.log ("Displaying movie information");
+    // movieName = process.argv[3];
+    if(process.argv.length > 3)
+        movieName = encodeURI(searchString);
+    else{
+        console.log("You didn't put a movie. Showing Mr. Nobody");
+        movieName = encodeURI('Mr. Nobody');
+    }
+        
+
+    var movieUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
+
+    request(movieUrl, function(error, response, body) {
+
+        if(error)
+            throw error;
+
+        console.log(body);
+        console.log("Release Year: " + JSON.parse(body).Year);
+        
+    });
 }
 
 function FollowInstructions() {
