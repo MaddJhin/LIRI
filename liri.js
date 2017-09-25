@@ -1,6 +1,13 @@
 var twitterKeys = require('./keys.js');
-var request = require('request');
+var spotKeys = require('./spotKeys.js');
 
+var request = require('request');
+var Spotify = require('node-spotify-api');
+
+var spotify = new Spotify({
+    id: spotKeys.id,
+    secret: spotKeys.secret
+});
 
 // The first argument passed by the user is taken for the command
 var command = process.argv[2];
@@ -14,10 +21,6 @@ if(process.argv.length > 3)
         searchString += process.argv[i] + " ";
     }
 }
-
-
-// Vars for different functions
-var movieName = "Mr. Nobody";
 
 // Use the command to determine which case to run
 switch (command) {
@@ -48,18 +51,32 @@ function DisplayTweets() {
 
 function DisplaySong() {
     console.log ("Displaying song information");
+
+    var songName = "";
+    if(process.argv.length > 3)
+        songName = encodeURI(searchString);
+    else
+        console.log("Please put a track name");
+
+    spotify.search({ type: 'track', query: songName }, function(error, data) {
+        if (error) {
+          return console.log('Error occurred: ' + error);
+        }
+       
+      console.log(data); 
+      });
 }
 
 function DisplayMovie() {
     console.log ("Displaying movie information");
-    // movieName = process.argv[3];
+    
+    var movieName = "";
     if(process.argv.length > 3)
         movieName = encodeURI(searchString);
     else{
         console.log("You didn't put a movie. Showing Mr. Nobody");
         movieName = encodeURI('Mr. Nobody');
     }
-        
 
     var movieUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
 
