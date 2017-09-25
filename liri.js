@@ -71,19 +71,32 @@ function DisplaySong() {
     console.log ("Displaying song information");
 
     var songName = "";
-    // if(process.argv.length > 3)
-    //     songName = encodeURI(searchString);
-    // else
-    //     console.log("Please put a track name");
+    if(process.argv.length > 3)
+        songName = encodeURI(searchString);
+    else {
+        console.log("Please put a track name");
+        return;
+    }
+    // songName =  encodeURI("We didn't start the fire");
 
-    songName =  decodeURI('"The+Sign"');
-
-    spotify.search({ type: 'track', query: songName}, function(error, data) {
+    spotify.search({ type: 'track', query: songName, limit: 1}, function(error, data) {
         if (error) {
           return console.log('Error occurred: ' + error);
         }
        
-      console.log(data); 
+    //   console.log(JSON.stringify(data, null, 2)); 
+    console.log(data.tracks.items[0].artists[0].name);
+    console.log(data.tracks.items[0].name);
+    console.log(data.tracks.items[0].external_urls.spotify);
+    console.log(data.tracks.items[0].album.name);
+    //   Artist(s)
+      
+    //   * The song's name
+      
+    //   * A preview link of the song from Spotify
+      
+    //   * The album that the song is from
+ 
       });
 }
 
