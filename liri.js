@@ -32,24 +32,24 @@ if(process.argv.length > 3)
 
 // Use the command to determine which case to run
 switch (command) {
-    case 'my-tweets':
+    case '-tweet':
         DisplayTweets();
         break;
 
-    case `spotify-this-song`:
+    case `-spot`:
         DisplaySong();
         break;
 
-    case `movie-this`:
+    case `-movie`:
         DisplayMovie();
         break;
     
-    case `do-what-it-says`:
+    case `-do`:
         FollowInstructions();
         break;
 
     default:
-        console.log(command + " is not a recognized option. Please use: 'my-tweets', `spotify-this-song`,  `movie-this`, or `do-what-it-says`");
+        console.log(command + " is not a recognized option. Please use: '-tweet', `-spot`,  `-movie`, or `-do`");
         break;
 }
 
@@ -84,20 +84,11 @@ function DisplaySong() {
           return console.log('Error occurred: ' + error);
         }
        
-    //   console.log(JSON.stringify(data, null, 2)); 
-    console.log(data.tracks.items[0].artists[0].name);
-    console.log(data.tracks.items[0].name);
-    console.log(data.tracks.items[0].external_urls.spotify);
-    console.log(data.tracks.items[0].album.name);
-    //   Artist(s)
-      
-    //   * The song's name
-      
-    //   * A preview link of the song from Spotify
-      
-    //   * The album that the song is from
- 
-      });
+        console.log("Artist: " + data.tracks.items[0].artists[0].name);
+        console.log("Track Name: " + data.tracks.items[0].name);
+        console.log("Preview: " + data.tracks.items[0].preview_url);
+        console.log("Album: " + data.tracks.items[0].album.name);
+    });
 }
 
 function DisplayMovie() {
