@@ -4,6 +4,7 @@ var spotKeys = require('./spotKeys.js');
 var request = require('request');
 var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
+var fs = require('fs');
 
 var spotify = new Spotify({
     id: spotKeys.id,
@@ -30,27 +31,32 @@ if(process.argv.length > 3)
     }
 }
 
+
+CommandSwitch(command);
+
 // Use the command to determine which case to run
-switch (command) {
-    case '-tweet':
-        DisplayTweets();
-        break;
-
-    case `-spot`:
-        DisplaySong();
-        break;
-
-    case `-movie`:
-        DisplayMovie();
-        break;
+function CommandSwitch(action) {
+    switch (action) {
+        case '-tweet':
+            DisplayTweets();
+            break;
     
-    case `-do`:
-        FollowInstructions();
-        break;
-
-    default:
-        console.log(command + " is not a recognized option. Please use: '-tweet', `-spot`,  `-movie`, or `-do`");
-        break;
+        case `-spot`:
+            DisplaySong();
+            break;
+    
+        case `-movie`:
+            DisplayMovie();
+            break;
+        
+        case `-do`:
+            FollowInstructions();
+            break;
+    
+        default:
+            console.log(command + " is not a recognized option. Please use: '-tweet', `-spot`,  `-movie`, or `-do`");
+            break;
+    }   
 }
 
 function DisplayTweets() {
@@ -77,7 +83,7 @@ function DisplaySong() {
         console.log("Please put a track name");
         return;
     }
-    // songName =  encodeURI("We didn't start the fire");
+    // songName =  '"We didnt start the fire"';
 
     spotify.search({ type: 'track', query: songName, limit: 1}, function(error, data) {
         if (error) {
@@ -88,6 +94,8 @@ function DisplaySong() {
         console.log("Track Name: " + data.tracks.items[0].name);
         console.log("Preview: " + data.tracks.items[0].preview_url);
         console.log("Album: " + data.tracks.items[0].album.name);
+
+        // console.log(data);
     });
 }
 
@@ -123,5 +131,13 @@ function DisplayMovie() {
 
 function FollowInstructions() {
     console.log ("Doing what it says");
+
+    fs.readFile("./random.txt", 'utf8', function (derp, data) {
+        if(derp)
+            throw derp;
+
+        var textCommand = data.split(',');
+        command = data[0];
+    })
 }
 
