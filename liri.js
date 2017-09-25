@@ -56,12 +56,13 @@ switch (command) {
 function DisplayTweets() {
     console.log ("Showing last 20 tweets");
 
-    twitter.get('search/tweets', {q: 'node.js', count: 20}, function(error, tweets, response){
+    twitter.get('statuses/user_timeline', {screen_name: 'DefPandaPenguin', count: 20}, function(error, tweets, response){
         if (error)
             console.log(error);
 
-        tweets.statuses.forEach(function(element) {
-            console.log(element.text);
+        tweets.forEach(function(element, i) {
+            console.log("Tweet #" + (i+1) + " Date: "+ element.created_at);
+            console.log("Text: "+ element.text);
         }, this);
     });
 }
