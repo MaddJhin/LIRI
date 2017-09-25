@@ -54,16 +54,16 @@ function DisplaySong() {
 
     var songName = "";
     if(process.argv.length > 3)
-        songName = encodeURI(searchString);
+        songName = '"'+searchString +'"';
     else
         console.log("Please put a track name");
 
-    spotify.search({ type: 'track', query: songName }, function(error, data) {
+    spotify.search({ type: 'track', query: songName}, function(error, data) {
         if (error) {
           return console.log('Error occurred: ' + error);
         }
        
-      console.log(data); 
+      console.log(data.tracks); 
       });
 }
 
